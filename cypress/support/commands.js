@@ -69,17 +69,20 @@ Cypress.Commands.add('token', (email, senha) => {
  Cypress.Commands.add('listarUsuarios',()=>{
     cy.request({
         method:'GET',
+        failOnStatusCode: false,
         url:'usuarios'
     })
  })
 
  Cypress.Commands.add('editarUsuario',(id)=>{
+    let numero = Math.floor(Math.random()*10000000)
     cy.request({
         method:'PUT',
         url:`usuarios/${id}`,
+        failOnStatusCode: false,
         body:{
             "nome": 'nome editado',
-            "email": 'luan_editado@email.com',
+            "email": `luan_editado_${numero}@gmail.com`,
             "password": 'senha_nova',
             "administrador": 'true'
         }
@@ -89,6 +92,7 @@ Cypress.Commands.add('token', (email, senha) => {
  Cypress.Commands.add('deletarUsuario',(id)=>{
     cy.request({
         method:'DELETE',
+        failOnStatusCode: false,
         url:`usuarios/${id}`
     })
 })

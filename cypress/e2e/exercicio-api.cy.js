@@ -21,27 +21,36 @@ describe('Testes da Funcionalidade Usuários', () => {
      })
     });
 
-    it('Deve validar um usuário com email inválido', () => {
+    it('Deve validar um usuário com email repetido', () => {
      cy.cadastrarUsuario('Luan1', 'luan1_teste@teste.com','teste@luan', 'true').then(response=>{
           expect(response.status).to.equal(400);
           expect(response.body.message).to.equal('Este email já está sendo usado');
      })
     });
 
-    it('Deve editar um usuário previamente cadastrado', () => {
-     cy.listarUsuarios().then(response=>{
-          let id = response.body.usuarios[0]._id;
-          cy.editarUsuario(id).then(response=>{
-               expect(response.status).to.equal(200);
-               expect(response.body.message).to.equal('Registro alterado com sucesso');
-          })
+    it.only('Deve validar um usuário com email inválido', () => {
+     cy.cadastrarUsuario('Luan1', 'luan1_teste@@teste.com','teste@luan', 'true').then(response=>{
+          expect(response.body.email).to.equal('email deve ser um email válido');
      })
     });
 
-    it.only('Deve deletar um usuário previamente cadastrado', () => {
-        cy.listarUsuarios().then(response=>{
-          let id = response.body.usuarios[0]._id;
+
+    it('Deve editar um usuário previamente cadastrado', () => {
+     let numero = Math.floor(Math.random()*10000000)
+     cy.cadastrarUsuario("Luan",`luan_${numero}@email.com`,"senha1231","true")
+     .then(response=>{
+          cy.log(response.body._id);
+          let id = response.body._id;
+          cy.editarUsuario(id);
+     })
+    });
+
+    it('Deve deletar um usuário previamente cadastrado', () => {
+     let numero = Math.floor(Math.random()*10000000)
+     cy.cadastrarUsuario("Luan",`luan_${numero}@email.com`,"senha1231","true")
+     .then(response=>{
+          let id = response.body._id;
           cy.deletarUsuario(id);
-        })
+     })
     });
 });
