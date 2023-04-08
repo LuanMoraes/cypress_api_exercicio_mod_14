@@ -15,7 +15,8 @@ describe('Testes da Funcionalidade Usuários', () => {
     });
 
     it('Deve cadastrar um usuário com sucesso', () => {
-     cy.cadastrarUsuario('Luan1', 'luan1_teste@teste.com','teste@luan', 'true').then(response=>{
+     let numero = Math.floor(Math.random()*10000000)
+     cy.cadastrarUsuario(`luan${numero}`, `luan_teste${numero}@gmail.com`,'teste@luan', 'true').then(response=>{
           expect(response.status).to.eql(201);
           expect(response.body.message).to.equal('Cadastro realizado com sucesso');
      })
@@ -28,7 +29,7 @@ describe('Testes da Funcionalidade Usuários', () => {
      })
     });
 
-    it.only('Deve validar um usuário com email inválido', () => {
+    it('Deve validar um usuário com email inválido', () => {
      cy.cadastrarUsuario('Luan1', 'luan1_teste@@teste.com','teste@luan', 'true').then(response=>{
           expect(response.body.email).to.equal('email deve ser um email válido');
      })
