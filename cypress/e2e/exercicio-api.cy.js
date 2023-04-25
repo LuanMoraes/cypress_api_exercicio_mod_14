@@ -1,6 +1,7 @@
 /// <reference types="cypress" />
 import { expression } from 'joi';
 import contrato from '../contracts/usuarios.contract'
+import { reporters } from 'mocha';
 
 describe('Testes da Funcionalidade Usuários', () => {
 
@@ -11,11 +12,13 @@ describe('Testes da Funcionalidade Usuários', () => {
     });
 
     it('Deve listar usuários cadastrados', () => {
-         cy.listarUsuarios()
+         cy.listarUsuarios().then(response=>{
+          expect(response.status).to.eql(200);
+         })
     });
 
     it('Deve cadastrar um usuário com sucesso', () => {
-     cy.cadastrarUsuario('Luan1', 'luan1_teste@teste.com','teste@luan', 'true').then(response=>{
+     cy.cadastrarUsuario('Luan1', 'luan1_testando@teste.com','teste@luan', 'true').then(response=>{
           expect(response.status).to.eql(201);
           expect(response.body.message).to.equal('Cadastro realizado com sucesso');
      })
@@ -28,7 +31,7 @@ describe('Testes da Funcionalidade Usuários', () => {
      })
     });
 
-    it.only('Deve validar um usuário com email inválido', () => {
+    it('Deve validar um usuário com email inválido', () => {
      cy.cadastrarUsuario('Luan1', 'luan1_teste@@teste.com','teste@luan', 'true').then(response=>{
           expect(response.body.email).to.equal('email deve ser um email válido');
      })
@@ -42,6 +45,8 @@ describe('Testes da Funcionalidade Usuários', () => {
           cy.log(response.body._id);
           let id = response.body._id;
           cy.editarUsuario(id);
+     }).then(response=>{
+          expect(response.status).to.eql(200)
      })
     });
 
@@ -51,6 +56,8 @@ describe('Testes da Funcionalidade Usuários', () => {
      .then(response=>{
           let id = response.body._id;
           cy.deletarUsuario(id);
+     }).then(response=>{
+          expect(response.status).to.eql(200)
      })
     });
 });
