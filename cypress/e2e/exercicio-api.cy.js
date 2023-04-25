@@ -18,7 +18,7 @@ describe('Testes da Funcionalidade Usuários', () => {
     });
 
     it('Deve cadastrar um usuário com sucesso', () => {
-     cy.cadastrarUsuario('Luan1', 'luan1_testando@teste.com','teste@luan', 'true').then(response=>{
+     cy.cadastrarUsuario('Luan1', 'luan1_testador@teste.com','teste@luan', 'true').then(response=>{
           expect(response.status).to.eql(201);
           expect(response.body.message).to.equal('Cadastro realizado com sucesso');
      })

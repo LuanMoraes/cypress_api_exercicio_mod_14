@@ -1,8 +1,6 @@
-pipeline {
-    agent any
 
     stages {
-        stage('Clonando o repositorio') {
+        stage('Clonando repositorio') {
             steps {
                 git branch: 'main', url: 'https://github.com/LuanMoraes/cypress_api_exercicio_mod_14.git'
             }
@@ -12,7 +10,7 @@ pipeline {
                 bat 'npm install'
             }
         }
-        stage('Rodando os testes') {
+        stage('Iniciando os testes') {
             steps {
                 bat 'npm run cy:run'
             }
